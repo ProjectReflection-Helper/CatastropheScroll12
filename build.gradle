@@ -31,6 +31,7 @@ minecraft {
 
     // Add various JVM arguments here for runtime
     def args = ['-ea:' + group]
+    args << '-Xmx4G' << '-Xms4G' << '-XX:+UseG1GC' << '-XX:+ParallelRefProcEnabled' << '-XX:MaxGCPauseMillis=50' << '-XX:+UnlockExperimentalVMOptions' << '-XX:+ExplicitGCInvokesConcurrent'
     args << '-Dmixin.hotSwap=true'
     args << '-Dmixin.checks.interfaces=true'
     args << '-Dmixin.debug.export=true'
@@ -94,7 +95,8 @@ dependencies {
     implementation "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
     annotationProcessor "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
 
-    implementation rfg.deobf("curse.maven:alternate-mixin-utilities-1328540:${twelvefold_booter_version}")
+    //implementation rfg.deobf("curse.maven:alternate-mixin-utilities-1328540:${twelvefold_booter_version}")
+    implementation rfg.deobf("maven.modrinth:twelvefold-booter:${twelvefold_booter_version}")
 	
     implementation rfg.deobf("mezz.jei:jei_1.12.2:${jei_version}")
     implementation rfg.deobf("com.azanor.baubles:Baubles:1.12-1.5.2")

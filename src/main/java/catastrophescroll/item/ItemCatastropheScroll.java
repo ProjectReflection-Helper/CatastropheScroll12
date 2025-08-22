@@ -21,6 +21,7 @@ public class ItemCatastropheScroll extends Item implements IBauble {
         this.setRegistryName(CatastropheScroll12.MODID,"catastrophe_scroll");
         this.setTranslationKey("catastrophe_scroll");
         this.setCreativeTab(CatastropheScroll12.TAB);
+        this.setMaxStackSize(1);
     }
 
     @Override
@@ -41,14 +42,15 @@ public class ItemCatastropheScroll extends Item implements IBauble {
         if(player instanceof EntityPlayerMP playerMP)
         {
             CSPlayerLabels.SCROLL_EQUIPPED.removeFrom(playerMP);
+            getAttrs(playerMP).forEach(e->e.remove(playerMP));
         }
     }
 
     @Override
-    public boolean canUnequip(ItemStack itemstack, EntityLivingBase player) {
-        if(player instanceof EntityPlayerMP playerMP)
+    public boolean canUnequip(ItemStack itemstack, EntityLivingBase entity) {
+        if(entity instanceof EntityPlayer player)
         {
-            return playerMP.capabilities.isCreativeMode;
+            return player.capabilities.isCreativeMode;
         }
         return true;
     }
@@ -85,7 +87,13 @@ public class ItemCatastropheScroll extends Item implements IBauble {
         );
     }
     @Override
-    public void onWornTick(ItemStack itemstack, EntityLivingBase player) {
-
+    public void onWornTick(ItemStack itemstack, EntityLivingBase entity) {
+        if(entity instanceof EntityPlayerMP player){
+            getAttrs(player).forEach(e->e.update(player));
+            if(player.getHealth()>player.getMaxHealth())
+            {
+                player.setHealth(player.getMaxHealth());
+            }
+        }
     }
 }

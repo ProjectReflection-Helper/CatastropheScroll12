@@ -16,12 +16,15 @@ public class ClientModRegistry {
 
     @SubscribeEvent
     public static void modelRegisterEvent(ModelRegistryEvent event) {
-        registerModels(/*ModRegistry.exampleHelmet,
-         ModRegistry.exampleChestplate,
-          ModRegistry.exampleLeggings,
-           ModRegistry.exampleBoots
-           */
-                ModRegistry.catastropheScroll
+        registerModels(
+                ModRegistry.catastropheScroll,
+                ModRegistry.truthEtching,
+                ModRegistry.originEtching,
+                ModRegistry.nihilityEtching,
+                ModRegistry.chaoticEtching,
+                ModRegistry.lifeEtching,
+                ModRegistry.endEtching,
+                ModRegistry.desireEtching
         );
     }
 

@@ -1,5 +1,6 @@
 package catastrophescroll.lib;
 
+import com.github.bsideup.jabel.Desugar;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.function.DoubleSupplier;
-
+@Desugar
 public record AttrAdder(String name, IAttribute attribute, UUID uuid, int op, DoubleSupplier value) {
     public static AttrAdder of(String name,IAttribute id,int op,DoubleSupplier value)
     {

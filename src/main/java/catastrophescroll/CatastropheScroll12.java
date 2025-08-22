@@ -13,12 +13,16 @@ import catastrophescroll.handlers.ModRegistry;
 import catastrophescroll.proxy.CommonProxy;
 import twelvefold.twelvefoldbooter.api.LateMixinLoader;
 
-@Mod(modid = CatastropheScroll12.MODID, version = CatastropheScroll12.VERSION, name = CatastropheScroll12.NAME, dependencies = "required-after:twelvefoldbooter")
+@Mod(modid = CatastropheScroll12.MODID,
+        version = CatastropheScroll12.VERSION,
+        name = CatastropheScroll12.NAME,
+        dependencies = "required-after:twelvefoldbooter;required-after:gamestages"
+)
 @LateMixinLoader(value = "mixins.catastrophescroll.late.json")
 public class CatastropheScroll12 {
     public static final String MODID = "catastrophescroll";
     public static final String VERSION = "1.0.0";
-    public static final String NAME = "CatastropheScroll12";
+    public static final String NAME = "Catastrophe Scroll for 1.12";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final CreativeTabs TAB=new CreativeTabs("catastrophescroll") {
         @Override

@@ -5,13 +5,19 @@ plugins {
     id 'com.gtnewhorizons.retrofuturagradle' version '1.4.0'
 //    id 'org.spongepowered.mixin' version "${mixin_gradle_version}"
 
+
 }
 
 version = mod_version
 group = mod_id
 base.archivesName = mod_name
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+        vendor=JvmVendorSpec.AZUL
+    }
+}
 
 minecraft {
     mcVersion.set('1.12.2')
@@ -53,10 +59,32 @@ repositories {
             includeGroup 'curse.maven'
         }
     }
+    maven {
+        url 'https://maven.thiakil.com'
+        content{
+            includeGroup 'com.azanor.baubles'
+        }
+    }
+    maven {
+        url 'https://maven.blamejared.com'
+        content{
+            includeGroup 'mezz.jei'
+            includeGroup 'net.darkhax.gamestages'
+            includeGroup 'net.darkhax.bookshelf'
+        }
+    }
 }
 
 dependencies {
     // minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    annotationProcessor 'com.github.bsideup.jabel:jabel-javac-plugin:1.0.0'
+    // Workaround for https://github.com/bsideup/jabel/issues/174
+    annotationProcessor 'net.java.dev.jna:jna-platform:5.13.0'
+    compileOnly ('com.github.bsideup.jabel:jabel-javac-plugin:1.0.0') {
+        transitive = false
+    }
+    // Allow jdk.unsupported classes like sun.misc.Unsafe, workaround for JDK-8206937 and fixes crashes in tests
+    patchedMinecraft 'me.eigenraven.java8unsupported:java-8-unsupported-shim:1.0.0'
 
     def mixin=modUtils.enableMixins("org.spongepowered:mixin:${mixin_version}","mixins.${mod_id}.refmap.json")
     api (mixin) {
@@ -68,7 +96,10 @@ dependencies {
 
     implementation rfg.deobf("curse.maven:alternate-mixin-utilities-1328540:${twelvefold_booter_version}")
 	
-    implementation rfg.deobf("maven.modrinth:jei:${jei_version}")
+    implementation rfg.deobf("mezz.jei:jei_1.12.2:${jei_version}")
+    implementation rfg.deobf("com.azanor.baubles:Baubles:1.12-1.5.2")
+    implementation rfg.deobf('net.darkhax.gamestages:GameStages-1.12.2:2.0.123')
+    implementation rfg.deobf('net.darkhax.bookshelf:Bookshelf-1.12.2:2.3.590')
 }
 
 //mixin {
@@ -111,5 +142,12 @@ jar {
         ])
     }
 }
+configure([tasks.compileJava]) {
+    sourceCompatibility = 16 // for the IDE support
+    options.release = 8
 
+    javaCompiler = javaToolchains.compilerFor {
+        languageVersion = JavaLanguageVersion.of(16)
+    }
+}
 jar.finalizedBy('reobfJar')
